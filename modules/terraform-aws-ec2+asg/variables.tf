@@ -50,13 +50,13 @@ variable "ingress_rules" {
 }
 
 variable "from_port" {
-  type = number
-  default = 0 
+  type    = number
+  default = 0
 }
 
 variable "to_port" {
-  type = number
-  default = 0 
+  type    = number
+  default = 0
 }
 
 variable "instance_types" {
