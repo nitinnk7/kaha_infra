@@ -38,7 +38,10 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Terraform Init
+      - name: cd to Terraform Directory
+        run: cd dev     
+
+      - name: Terraform Init      
         run: terraform init
 
       - name: Terraform Format
@@ -48,4 +51,4 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -no-color -input=false
+        run: terraform plan -var-file=dev.tfvars
