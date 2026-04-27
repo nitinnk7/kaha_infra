@@ -1,0 +1,1 @@
+output "rds_endpoint" { value = var.rds_enabled ? try(module.rds[0].endpoint, null) : null }
