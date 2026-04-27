@@ -20,15 +20,15 @@ variable "aws_region" {
 
 variable "vpc_id" {
   description = "vpc ID"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "public_subnets" {
   description = "List of public subnet IDs"
   type        = list(string)
   default     = []
-  
+
 }
 
 #################
@@ -163,7 +163,7 @@ variable "cpu_target_value_asg" {
   description = "Target CPU utilization percentage for ASG scaling"
   type        = number
   default     = 60
-  
+
 }
 
 #################

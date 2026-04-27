@@ -12,8 +12,8 @@ module "alb" {
     }
   ]
 
-  enable_https = false
-  certificate_arn = [] # Add certificate ARN if HTTPS is enabled
+  enable_https       = false
+  certificate_arn    = [] # Add certificate ARN if HTTPS is enabled
   enable_access_logs = false
   log_bucket         = [] # Add log bucket ARN if access logs are enabled
 

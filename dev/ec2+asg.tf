@@ -1,9 +1,9 @@
 module "ec2" {
   source = "../modules/terraform-aws-ec2+asg"
 
-  name     = "${var.project}-app"
-  vpc_id   = var.vpc_id
-  subnets  = var.private_subnets_asg
+  name    = "${var.project}-app"
+  vpc_id  = var.vpc_id
+  subnets = var.private_subnets_asg
 
   ami = "ami-12345678" # Replace with actual AMI ID for your region
 

@@ -2,8 +2,8 @@
 
 locals {
   # Common naming
-  name     = "${var.project}-${var.environment}"
-  db_name  = "${var.project}-${var.environment}-db"
+  name    = "${var.project}-${var.environment}"
+  db_name = "${var.project}-${var.environment}-db"
 
   # Account information
   account_id = data.aws_caller_identity.current.account_id

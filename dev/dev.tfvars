@@ -1,22 +1,22 @@
 #################
 # General
 #################
-project     = "kaha"
-environment = "dev"
-aws_region  = "ap-south-1"
-vpc_id      = "vpc-12345678"  # Replace with actual VPC ID
-public_subnets = [ "subnet-12345678", "subnet-87654321" ] # Replace with actual public subnet IDs for alb
+project        = "kaha"
+environment    = "dev"
+aws_region     = "ap-south-1"
+vpc_id         = "vpc-12345678"                         # Replace with actual VPC ID
+public_subnets = ["subnet-12345678", "subnet-87654321"] # Replace with actual public subnet IDs for alb
 
 ################
 # EC2 + ASG
 ################
-ec2_instance_type = "c7g.2xlarge" # Primary instance type
-ec2_instance_types = ["c7g.2xlarge", "c6g.2xlarge", "c6gn.2xlarge"] # Multiple spot instance types for better availability and cost optimization
-private_subnets_asg = [ "subnet-12345678", "subnet-87654321" ] # Replace with actual private subnet IDs for ASG
-max_size_asg = 2
-min_size_asg = 2
+ec2_instance_type    = "c7g.2xlarge"                                  # Primary instance type
+ec2_instance_types   = ["c7g.2xlarge", "c6g.2xlarge", "c6gn.2xlarge"] # Multiple spot instance types for better availability and cost optimization
+private_subnets_asg  = ["subnet-12345678", "subnet-87654321"]         # Replace with actual private subnet IDs for ASG
+max_size_asg         = 2
+min_size_asg         = 2
 desired_capacity_asg = 2
-cpu_target_value_asg = 60 
+cpu_target_value_asg = 60
 
 
 #################
@@ -36,7 +36,7 @@ rds_backup_window           = "03:00-04:00"
 rds_maintenance_window      = "Mon:04:00-Mon:05:00"
 rds_multi_az                = false
 rds_skip_final_snapshot     = true
-private_subnets_rds            = [ "subnet-12345678", "subnet-87654321" ] # Replace with actual private subnet IDs for RDS
+private_subnets_rds         = ["subnet-12345678", "subnet-87654321"] # Replace with actual private subnet IDs for RDS
 
 
 
