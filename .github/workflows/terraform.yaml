@@ -4,16 +4,15 @@ on:
   push:
     branches:
       - dev
-  workflow_dispatch:    
 
 env:
   TF_VERSION: "1.7.0"
   TF_WORKING_DIR: "./dev"
-  AWS_REGION: "ap-south-1"               # Change to your region
+  AWS_REGION: "ap-south-1"
 
 jobs:
-  terraform:
-    name: Fmt, Validate & Plan
+  terraform-plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
 
     defaults:
@@ -30,13 +29,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-          
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Terraform Init      
+      - name: Terraform Init
         run: terraform init
 
       - name: Terraform Format
@@ -46,8 +45,38 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var-file=dev.tfvars 
+        run: terraform plan -var-file=dev.tfvars
 
-      - name: terraform apply
-        if: github.event_name == 'workflow_dispatch'
-        run: terraform apply -var-file=dev.tfvars -auto-approve  
+  terraform-apply:
+    name: Terraform Apply
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+
+    environment:
+      name: dev
+
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file=dev.tfvars
