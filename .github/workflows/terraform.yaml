@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+  workflow_dispatch:    
 
 env:
   TF_VERSION: "1.7.0"
@@ -29,10 +30,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-          # -- OR use static keys (less secure) --
-          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
+          
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -49,3 +47,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -var-file=dev.tfvars 
+
+      - name: terraform apply
+        if: github.event_name == 'workflow_dispatch'
+        run: terraform apply -var-file=dev.tfvars -auto-approve  
