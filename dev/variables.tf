@@ -193,3 +193,12 @@ variable "s3_lifecycle_expiration_days" {
   type    = number
   default = 365
 }
+
+##################
+#S3 Bucket
+##################
+variable "acl" {
+  description = "The canned ACL to apply. Defaults to 'private'."
+  type        = string
+  default     = "private"
+}
