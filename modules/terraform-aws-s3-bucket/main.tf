@@ -3,9 +3,6 @@ resource "aws_s3_bucket" "this" {
   acl                 = var.acl
   tags                = var.tags
   force_destroy       = var.force_destroy
-  acceleration_status = var.acceleration_status
-  request_payer       = var.request_payer
-
   
 
   dynamic "website" {
@@ -31,14 +28,14 @@ resource "aws_s3_bucket" "this" {
     }
   }
 
-  dynamic "versioning" {
-    for_each = length(keys(var.versioning)) == 0 ? [] : [var.versioning]
+  # dynamic "versioning" {
+  #   for_each = length(keys(var.versioning)) == 0 ? [] : [var.versioning]
 
-    content {
-      enabled    = lookup(versioning.value, "enabled", null)
-      mfa_delete = lookup(versioning.value, "mfa_delete", null)
-    }
-  }
+  #   content {
+  #     enabled    = lookup(versioning.value, "enabled", null)
+  #     mfa_delete = lookup(versioning.value, "mfa_delete", null)
+  #   }
+  # }
 
   dynamic "logging" {
     for_each = length(keys(var.logging)) == 0 ? [] : [var.logging]
@@ -237,6 +234,22 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   depends_on = [aws_s3_bucket.this]
 }
 
+resource "aws_s3_bucket_accelerate_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+  status = var.acceleration_status
+}
+
+resource "aws_s3_bucket_request_payment_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+  payer  = var.request_payer
+}
+
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 /* resource "aws_s3_bucket_acl" "this" {
   count = local.create_bucket && ((var.acl != null && var.acl != "null") || length(local.grants) > 0) ? 1 : 0
 

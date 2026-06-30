@@ -53,14 +53,14 @@ variable "force_destroy" {
 variable "acceleration_status" {
   description = "(Optional) Sets the accelerate configuration of an existing bucket. Can be Enabled or Suspended."
   type        = string
-  default     = null
+  default     = "Suspended"
 }
 
 
 variable "request_payer" {
   description = "(Optional) Specifies who should bear the cost of Amazon S3 data transfer. Can be either BucketOwner or Requester. By default, the owner of the S3 bucket would incur the costs of any data transfer. See Requester Pays Buckets developer guide for more information."
   type        = string
-  default     = null
+  default     = "BucketOwner"
 }
 
 variable "website" {
