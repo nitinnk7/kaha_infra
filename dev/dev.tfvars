@@ -10,9 +10,9 @@ public_subnets = ["subnet-12345678", "subnet-87654321"] # Replace with actual pu
 ################
 # EC2 + ASG on demand
 ################
-ec2_instance_type    = "c7g.2xlarge"                                  # Primary instance type on demand
-ec2_instance_types   = []                                             # use only one instance type for on-demand
-private_subnets_asg  = ["subnet-12345678", "subnet-87654321"]         # Replace with actual private subnet IDs for ASG
+ec2_instance_type    = "c7g.2xlarge"                          # Primary instance type on demand
+ec2_instance_types   = []                                     # use only one instance type for on-demand
+private_subnets_asg  = ["subnet-12345678", "subnet-87654321"] # Replace with actual private subnet IDs for ASG
 max_size_asg         = 2
 min_size_asg         = 2
 desired_capacity_asg = 2
@@ -21,7 +21,7 @@ cpu_target_value_asg = 60
 ################
 # EC2 + ASG spot
 ################
-ec2_instance_type_spot   = "c7g.2xlarge"                                  # Primary instance type spot
+ec2_instance_type_spot    = "c7g.2xlarge"                                  # Primary instance type spot
 ec2_instance_types_spot   = ["c7g.2xlarge", "c6g.2xlarge", "c6gn.2xlarge"] # spot instance types for ASG
 private_subnets_asg_spot  = ["subnet-12345678", "subnet-87654321"]         # Replace with actual private subnet IDs for ASG
 max_size_asg_spot         = 0

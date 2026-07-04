@@ -142,13 +142,13 @@ resource "aws_autoscaling_group" "this" {
     #   on_demand_percentage_above_base_capacity = var.on_demand_percentage
     #   spot_allocation_strategy                 = "capacity-optimized"
     # }
-  
+
   }
 
   launch_template {
     id      = aws_launch_template.this.id
     version = "$Latest"
-    
+
   }
 
   # Tags propagated to EC2
