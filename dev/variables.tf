@@ -166,7 +166,23 @@ variable "cpu_target_value_asg" {
 
 }
 
+variable "enable_cpu_scaling_asg" {
+  type    = bool
+  default = false
+}
 
+
+variable "enable_request_count_asg" {
+  description = "Enable request count based scaling"
+  type        = bool
+  default     = false
+}
+
+variable "request_count_target_value_asg" {
+  description = "Target request count per target"
+  type        = number
+  default     = 1000
+}
 #################
 # ec2+asg spot
 #################
@@ -210,6 +226,24 @@ variable "cpu_target_value_asg_spot" {
   type        = number
   default     = 60
 
+}
+
+variable "enable_cpu_scaling_asg_spot" {
+  type    = bool
+  default = false
+}
+
+
+variable "enable_request_count_asg_spot" {
+  description = "Enable request count based scaling"
+  type        = bool
+  default     = false
+}
+
+variable "request_count_target_value_asg_spot" {
+  description = "Target request count per target"
+  type        = number
+  default     = 1000
 }
 
 #################

@@ -7,12 +7,15 @@ module "ec2-on-demand" {
 
   ami = "ami-12345678" # Replace with actual AMI ID for your region
 
-  instance_type    = var.ec2_instance_type
-  instance_types   = [var.ec2_instance_type] # Only one instance type for on-demand
-  min_size         = var.min_size_asg
-  max_size         = var.max_size_asg
-  desired_capacity = var.desired_capacity_asg
-  cpu_target_value = var.cpu_target_value_asg
+  instance_type              = var.ec2_instance_type
+  instance_types             = [var.ec2_instance_type] # Only one instance type for on-demand
+  min_size                   = var.min_size_asg
+  max_size                   = var.max_size_asg
+  desired_capacity           = var.desired_capacity_asg
+  enable_cpu_scaling         = var.enable_cpu_scaling_asg
+  cpu_target_value           = var.cpu_target_value_asg
+  enable_request_count       = var.enable_request_count_asg
+  request_count_target_value = var.request_count_target_value_asg
 
   target_group_arns = [module.alb.target_group_arn]
 
@@ -36,12 +39,15 @@ module "ec2-spot" {
 
   ami = "ami-12345678" # Replace with actual AMI ID for your region
 
-  instance_type    = var.ec2_instance_type_spot
-  instance_types   = var.ec2_instance_types_spot
-  min_size         = var.min_size_asg_spot
-  max_size         = var.max_size_asg_spot
-  desired_capacity = var.desired_capacity_asg_spot
-  cpu_target_value = var.cpu_target_value_asg_spot
+  instance_type              = var.ec2_instance_type_spot
+  instance_types             = var.ec2_instance_types_spot
+  min_size                   = var.min_size_asg_spot
+  max_size                   = var.max_size_asg_spot
+  desired_capacity           = var.desired_capacity_asg_spot
+  enable_cpu_scaling         = var.enable_cpu_scaling_asg_spot
+  cpu_target_value           = var.cpu_target_value_asg_spot
+  enable_request_count       = var.enable_request_count_asg_spot
+  request_count_target_value = var.request_count_target_value_asg_spot
 
   target_group_arns = [module.alb.target_group_arn]
 

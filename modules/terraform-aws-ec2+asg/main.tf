@@ -170,6 +170,7 @@ resource "aws_autoscaling_group" "this" {
 ############################
 
 resource "aws_autoscaling_policy" "cpu_target_tracking" {
+  count                  = var.enable_cpu_scaling ? 1 : 0
   name                   = "${var.name}-cpu-scaling"
   autoscaling_group_name = aws_autoscaling_group.this.name
   policy_type            = "TargetTrackingScaling"
@@ -180,5 +181,20 @@ resource "aws_autoscaling_policy" "cpu_target_tracking" {
     }
 
     target_value = var.cpu_target_value
+  }
+}
+
+resource "aws_autoscaling_policy" "request_count_target_tracking" {
+  count                  = var.enable_request_count ? 1 : 0
+  name                   = "${var.name}-request-count-scaling"
+  autoscaling_group_name = aws_autoscaling_group.this.name
+  policy_type            = "TargetTrackingScaling"
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageRequestCountPerTarget"
+    }
+
+    target_value = var.request_count_target_value
   }
 }
