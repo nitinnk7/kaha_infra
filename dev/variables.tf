@@ -166,6 +166,52 @@ variable "cpu_target_value_asg" {
 
 }
 
+
+#################
+# ec2+asg spot
+#################
+variable "private_subnets_asg_spot" {
+  description = "List of private subnet IDs for ASG"
+  type        = list(string)
+  default     = []
+}
+
+variable "ec2_instance_type_spot" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "c7g.2xlarge" # Graviton instance type
+}
+
+variable "ec2_instance_types_spot" {
+  description = "List of EC2 instance types"
+  type        = list(string)
+  default     = []
+}
+variable "min_size_asg_spot" {
+  description = "Minimum size of the ASG"
+  type        = number
+  default     = 2
+}
+
+variable "max_size_asg_spot" {
+  description = "Maximum size of the ASG"
+  type        = number
+  default     = 2
+}
+
+variable "desired_capacity_asg_spot" {
+  description = "Desired capacity of the ASG"
+  type        = number
+  default     = 2
+}
+
+variable "cpu_target_value_asg_spot" {
+  description = "Target CPU utilization percentage for ASG scaling"
+  type        = number
+  default     = 60
+
+}
+
 #################
 # Tags
 #################

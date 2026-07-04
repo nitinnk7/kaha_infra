@@ -8,16 +8,26 @@ vpc_id         = "vpc-12345678"                         # Replace with actual VP
 public_subnets = ["subnet-12345678", "subnet-87654321"] # Replace with actual public subnet IDs for alb
 
 ################
-# EC2 + ASG
+# EC2 + ASG on demand
 ################
-ec2_instance_type    = "c7g.2xlarge"                                  # Primary instance type
-ec2_instance_types   = ["c7g.2xlarge", "c6g.2xlarge", "c6gn.2xlarge"] # Multiple spot instance types for better availability and cost optimization
+ec2_instance_type    = "c7g.2xlarge"                                  # Primary instance type on demand
+ec2_instance_types   = []                                             # use only one instance type for on-demand
 private_subnets_asg  = ["subnet-12345678", "subnet-87654321"]         # Replace with actual private subnet IDs for ASG
 max_size_asg         = 2
 min_size_asg         = 2
 desired_capacity_asg = 2
 cpu_target_value_asg = 60
 
+################
+# EC2 + ASG spot
+################
+ec2_instance_type_spot   = "c7g.2xlarge"                                  # Primary instance type spot
+ec2_instance_types_spot   = ["c7g.2xlarge", "c6g.2xlarge", "c6gn.2xlarge"] # spot instance types for ASG
+private_subnets_asg_spot  = ["subnet-12345678", "subnet-87654321"]         # Replace with actual private subnet IDs for ASG
+max_size_asg_spot         = 0
+min_size_asg_spot         = 10
+desired_capacity_asg_spot = 0
+cpu_target_value_asg_spot = 60
 
 #################
 # RDS MySQL

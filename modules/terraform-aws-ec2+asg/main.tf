@@ -121,13 +121,13 @@ resource "aws_autoscaling_group" "this" {
   depends_on = [aws_launch_template.this]
 
   mixed_instances_policy {
+
     launch_template {
       launch_template_specification {
         launch_template_id = aws_launch_template.this.id
         version            = "$Latest"
       }
 
-      # Multi-instance (Spot friendly)
       dynamic "override" {
         for_each = length(var.instance_types) > 0 ? var.instance_types : [var.instance_type]
 
@@ -137,11 +137,18 @@ resource "aws_autoscaling_group" "this" {
       }
     }
 
-    instances_distribution {
-      on_demand_base_capacity                  = var.on_demand_base_capacity
-      on_demand_percentage_above_base_capacity = var.on_demand_percentage
-      spot_allocation_strategy                 = "capacity-optimized"
-    }
+    # instances_distribution {
+    #   on_demand_base_capacity                  = var.on_demand_base_capacity
+    #   on_demand_percentage_above_base_capacity = var.on_demand_percentage
+    #   spot_allocation_strategy                 = "capacity-optimized"
+    # }
+  
+  }
+
+  launch_template {
+    id      = aws_launch_template.this.id
+    version = "$Latest"
+    
   }
 
   # Tags propagated to EC2

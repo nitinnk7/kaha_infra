@@ -18,7 +18,7 @@ module "rds" {
 
   vpc_id         = var.vpc_id
   subnet_ids     = var.private_subnets_rds # Replace with actual private subnet IDs for RDS
-  inbound_sg_ids = [module.ec2.security_group_id]
+  inbound_sg_ids = [module.ec2-spot.security_group_id, module.ec2-on-demand.security_group_id] # Allow EC2 instances to access RDS
 
   skip_final_snapshot = var.rds_skip_final_snapshot
   # Note: This module may not support all RDS parameters
