@@ -3,7 +3,7 @@ module "ec2-on-demand" {
 
   name    = "${var.project}-primary-instance"
   vpc_id  = var.vpc_id
-  subnets = var.private_subnets_asg
+  subnets = module.vpc.private_subnet_ids
 
   ami = "ami-12345678" # Replace with actual AMI ID for your region
 
@@ -35,7 +35,7 @@ module "ec2-spot" {
 
   name    = "${var.project}-spot-instance"
   vpc_id  = var.vpc_id
-  subnets = var.private_subnets_asg
+  subnets = module.vpc.private_subnet_ids
 
   ami = "ami-12345678" # Replace with actual AMI ID for your region
 

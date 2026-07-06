@@ -3,7 +3,7 @@ module "alb" {
 
   name    = "${var.project}-alb"
   vpc_id  = var.vpc_id
-  subnets = var.public_subnets
+  subnets = module.vpc.public_subnet_ids
 
   ingress_rules = [
     {

@@ -41,6 +41,10 @@ variable "enable_s3_endpoint" {
   type = bool
 }
 
+variable "vpc_id" {
+  description = "VPC ID to use for the resources"
+  type        = string
+}
 
 # variable "enable_peering" {
 #   default = false

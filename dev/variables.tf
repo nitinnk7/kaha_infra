@@ -24,12 +24,54 @@ variable "vpc_id" {
   default     = ""
 }
 
-variable "public_subnets" {
-  description = "List of public subnet IDs"
-  type        = list(string)
-  default     = []
 
+
+#################
+# Network
+#################
+
+variable "vpc_name" {
+  description = "VPC name"
+  type        = string
 }
+
+
+variable "cidr_block" {
+  description = "CIDR block for the VPC"
+  type        = string
+}
+
+variable "az_count" {
+  description = "Count of Availability Zones"
+  type        = number
+  default     = 2
+}
+
+variable "public_subnets" {
+  description = "List of public subnet CIDRs"
+  type        = map(string)
+}
+
+variable "private_subnets" {
+  description = "List of private subnet CIDRs"
+  type        = map(string)
+}
+
+variable "db_subnets" {
+  description = "List of private subnet CIDRs"
+  type        = map(string)
+}
+
+variable "enable_nat_gateway" {
+  type    = bool
+  default = true
+}
+
+variable "enable_s3_endpoint" {
+  type    = bool
+  default = true
+}
+
 
 #################
 # RDS

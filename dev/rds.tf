@@ -17,7 +17,7 @@ module "rds" {
   rds_password = random_password.rds_master[0].result
 
   vpc_id         = var.vpc_id
-  subnet_ids     = var.private_subnets_rds                                                     # Replace with actual private subnet IDs for RDS
+  subnet_ids     = module.vpc.db_subnet_ids                                                    # Replace with private subnet IDs for RDS
   inbound_sg_ids = [module.ec2-spot.security_group_id, module.ec2-on-demand.security_group_id] # Allow EC2 instances to access RDS
 
   skip_final_snapshot = var.rds_skip_final_snapshot

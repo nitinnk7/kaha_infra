@@ -16,24 +16,24 @@ locals {
   db_map      = { for idx, k in local.db_keys : k => { cidr = var.db_subnets[k], az = local.azs[idx % length(local.azs)] } }
 }
 
-resource "aws_vpc" "main" {
-  cidr_block           = var.cidr_block
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  tags = merge(var.tags, {
-    Name = "${var.vpc_name}-vpc"
-  })
-}
+# resource "aws_vpc" "main" {
+#   cidr_block           = var.cidr_block
+#   enable_dns_support   = true
+#   enable_dns_hostnames = true
+#   tags = merge(var.tags, {
+#     Name = "${var.vpc_name}-vpc"
+#   })
+# }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
   tags   = merge(var.tags, { Name = "${var.vpc_name}-igw" })
 }
 
 # Subnets
 resource "aws_subnet" "public" {
   for_each                = local.public_map
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = var.vpc_id
   cidr_block              = each.value.cidr
   availability_zone       = each.value.az
   map_public_ip_on_launch = true
@@ -42,7 +42,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_subnet" "private" {
   for_each          = local.private_map
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc_id
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
   tags              = merge(var.tags, { Name = each.key, "kubernetes.io/role/internal-elb" = "1" })
@@ -50,7 +50,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_subnet" "db" {
   for_each          = local.db_map
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc_id
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
   tags              = merge(var.tags, { Name = each.key })
@@ -58,7 +58,7 @@ resource "aws_subnet" "db" {
 
 # Public route table: single RT for all public subnets
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
   tags   = merge(var.tags, { Name = "${var.vpc_name}-public-rt" })
 }
 
@@ -91,7 +91,7 @@ resource "aws_nat_gateway" "nat" {
 # Private route tables (one per private subnet)
 resource "aws_route_table" "private" {
   for_each = aws_subnet.private
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc_id
   tags     = merge(var.tags, { Name = "${each.key}-rt" })
 }
 
@@ -111,7 +111,7 @@ resource "aws_route_table_association" "private" {
 # DB route tables (one per db subnet) -> default to NAT for egress if enabled
 resource "aws_route_table" "db" {
   for_each = aws_subnet.db
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc_id
   tags     = merge(var.tags, { Name = "${each.key}-rt" })
 }
 
@@ -130,7 +130,7 @@ resource "aws_route_table_association" "db" {
 
 resource "aws_vpc_endpoint" "s3" {
   count        = var.enable_s3_endpoint ? 1 : 0
-  vpc_id       = aws_vpc.main.id
+  vpc_id       = var.vpc_id
   service_name = "com.amazonaws.${var.aws_region}.s3"
   # include private + db route tables
   route_table_ids = [
